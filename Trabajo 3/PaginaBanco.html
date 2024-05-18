@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zona Segura</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .safe-zone-message {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: green;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .container h1 {
+            color: #d32f2f;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .form-group img {
+            cursor: pointer;
+        }
+        .form-group .captcha {
+            display: flex;
+            align-items: center;
+        }
+        .form-group .captcha img {
+            margin-right: 10px;
+        }
+        .teclado-virtual {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .teclado-virtual button {
+            width: 30%;
+            padding: 10px;
+            margin: 5px 0;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+        button {
+            background-color: #d32f2f;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #b71c1c;
+        }
+        .link {
+            display: block;
+            margin: 10px 0;
+            color: #d32f2f;
+            text-decoration: none;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .footer {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .footer p {
+            margin: 5px 0;
+            color: #777;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <p class="safe-zone-message">Usted se encuentra en una <span style="color: green;">zona segura</span></p>
+    <div class="container">
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="tipo-tarjeta">Selección</label>
+                <select id="tipo-tarjeta" name="tipo-tarjeta">
+                    <option value="debito">Multired Global Débito</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="numero-tarjeta">Número de tarjeta</label>
+                <input type="text" id="numero-tarjeta" name="numero-tarjeta" maxlength="16">
+            </div>
+            <div class="form-group">
+                <label for="tipo-documento">Tipo y N° Documento</label>
+                <select id="tipo-documento" name="tipo-documento">
+                    <option value="dni">DNI</option>
+                    <option value="ce">Carné de Extranjería</option>
+                </select>
+                <input type="text" id="numero-documento" name="numero-documento">
+            </div>
+            <div class="form-group">
+                <label for="clave-virtual">Ingrese su clave usando el teclado virtual</label>
+                <input type="password" id="clave-virtual" name="clave-virtual">
+                <div class="teclado-virtual">
+                    <button type="button" onclick="appendNumber(1)">1</button>
+                    <button type="button" onclick="appendNumber(2)">2</button>
+                    <button type="button" onclick="appendNumber(3)">3</button>
+                    <button type="button" onclick="appendNumber(4)">4</button>
+                    <button type="button" onclick="appendNumber(5)">5</button>
+                    <button type="button" onclick="appendNumber(6)">6</button>
+                    <button type="button" onclick="appendNumber(7)">7</button>
+                    <button type="button" onclick="appendNumber(8)">8</button>
+                    <button type="button" onclick="appendNumber(9)">9</button>
+                    <button type="button" onclick="appendNumber(0)">0</button>
+                    <button type="button" onclick="clearPassword()">Limpiar</button>
+                </div>
+            </div>
+            <div class="form-group captcha">
+                <img src="captcha.png" alt="Captcha" onclick="reloadCaptcha()">
+                <input type="text" id="captcha" name="captcha">
+            </div>
+            <a href="#" class="link" onclick="openModal('generateModal')">Genera tu Clave de Internet</a>
+            <a href="#" class="link">Olvidé mi clave</a>
+            <button type="submit">INGRESAR</button>
+        </form>
+    </div>
+    <div class="footer">
+        <p>Ministerio de Economía y Finanzas</p>
+        <p>Av. Javier Prado Este 2499 San Borja, Lima, Perú | Teléfonos: 519-2000</p>
+        <p>Atención en Oficina de Trámite Documentario: Lunes a Viernes de 8:30 am a 5:30 pm</p>
+    </div>
+    <!-- Modal -->
+    <div id="generateModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('generateModal')">&times;</span>
+            <h2>Genera tu Clave de Internet</h2>
+            <form id="generateForm">
+                <div class="form-group">
+                    <label for="clave-internet">Ingrese su Clave de Internet (6 dígitos)</label>
+                    <input type="password" id="clave-internet" name="clave-internet" maxlength="6">
+                </div>
+                <button type="submit">Generar</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        function appendNumber(num) {
+            const claveVirtual = document.getElementById('clave-virtual');
+            claveVirtual.value += num;
+        }
+
+        function clearPassword() {
+            const claveVirtual = document.getElementById('clave-virtual');
+            claveVirtual.value = '';
+        }
+
+        function reloadCaptcha() {
+            // Implementa la lógica para recargar la imagen CAPTCHA aquí
+            alert('Recargar CAPTCHA');
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Validar y enviar el formulario
+            alert('Formulario enviado');
+        });
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        document.getElementById('generateForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Validar y enviar el formulario de generación de clave
+            alert('Clave de Internet generada');
+            closeModal('generateModal');
+        });
+
+        window.onclick = function(event) {
+            const generateModal = document.getElementById('generateModal');
+            if (event.target == generateModal) {
+                generateModal.style.display = 'none';
+            }
+        }
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            } 
+            return array;
+        }
+        const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        const shuffledNumbers = shuffleArray(numbers);
+        function assignRandomNumbers() {
+            const buttons = document.querySelectorAll('.teclado-virtual button');
+            buttons.forEach((button, index) => {
+                button.textContent = shuffledNumbers[index];
+            });
+        }
+        window.onload = assignRandomNumbers;
+</script>
+</body>
+</html>
