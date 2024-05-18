@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Ahorcado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #canvas {
+            border: 1px solid #ccc;
+            background-color: #fff;
+            margin-bottom: 20px;
+        }
+        .word-display {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .letters {
+            margin-bottom: 20px;
+        }
+        .letters button {
+            font-size: 1.2em;
+            margin: 5px;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .letters button.disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <canvas id="canvas" width="400" height="400"></canvas>
+        <div class="word-display" id="wordDisplay">_ _ _ _ _</div>
+        <div class="letters" id="letters"></div>
+        <button onclick="resetGame()">Reiniciar Juego</button>
+    </div>
+    <script>
+        const words = ['javascript', 'canvas', 'ahorcado', 'programacion', 'html'];
+        let selectedWord = '';
+        let guessedWord = [];
+        let mistakes = 0;
+        const maxMistakes = 6;
+        let guessedLetters = [];
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        const wordDisplay = document.getElementById('wordDisplay');
+        const lettersDiv = document.getElementById('letters');
+        function chooseWord() {
+            const randomIndex = Math.floor(Math.random() * words.length);
+            selectedWord = words[randomIndex];
+            guessedWord = Array(selectedWord.length).fill('_');
+            wordDisplay.textContent = guessedWord.join(' ');
+        }
+        function createLetterButtons() {
+            lettersDiv.innerHTML = '';
+            for (let i = 65; i <= 90; i++) {
+                const letter = String.fromCharCode(i);
+                const button = document.createElement('button');
+                button.textContent = letter;
+                button.onclick = () => guessLetter(letter);
+                lettersDiv.appendChild(button);
+            }
+        }
+        function guessLetter(letter) {
+            if (guessedLetters.includes(letter) || mistakes >= maxMistakes) return;
+            guessedLetters.push(letter);
+            const buttons = lettersDiv.getElementsByTagName('button');
+            for (const button of buttons) {
+                if (button.textContent === letter) {
+                    button.classList.add('disabled');
+                    button.disabled = true;
+                }
+            }
+            if (selectedWord.includes(letter.toLowerCase())) {
+                for (let i = 0; i < selectedWord.length; i++) {
+                    if (selectedWord[i] === letter.toLowerCase()) {
+                        guessedWord[i] = letter;
+                    }
+                }
+                wordDisplay.textContent = guessedWord.join(' ');
+                if (!guessedWord.includes('_')) {
+                    setTimeout(() => alert('¡Ganaste!'), 100);
+                }
+            } else {
+                mistakes++;
+                drawHangman(mistakes);
+                if (mistakes === maxMistakes) {
+                    setTimeout(() => alert('¡Perdiste! La palabra era ' + selectedWord), 100);
+                }
+            }
+        }
+        function drawHangman(step) {
+            switch (step) {
+                case 1:
+                    context.beginPath();
+                    context.arc(250, 130, 30, 0, Math.PI * 2);
+                    context.stroke();
+                    break;
+                case 2:
+                    context.beginPath();
+                    context.moveTo(250, 160);
+                    context.lineTo(250, 250);
+                    context.stroke();
+                    break;
+                case 3:
+                    context.beginPath();
+                    context.moveTo(250, 180);
+                    context.lineTo(200, 220);
+                    context.stroke();
+                    break;
+                case 4:
+                    context.beginPath();
+                    context.moveTo(250, 180);
+                    context.lineTo(300, 220);
+                    context.stroke();
+                    break;
+                case 5:
+                    context.beginPath();
+                    context.moveTo(250, 250);
+                    context.lineTo(200, 300);
+                    context.stroke();
+                    break;
+                case 6:
+                    context.beginPath();
+                    context.moveTo(250, 250);
+                    context.lineTo(300, 300);
+                    context.stroke();
+                    break;
+            }
+        }
+        function drawBase() {
+            context.beginPath();
+            context.moveTo(50, 350);
+            context.lineTo(150, 350);
+            context.stroke();
+            context.beginPath();
+            context.moveTo(100, 350);
+            context.lineTo(100, 50);
+            context.stroke();
+            context.beginPath();
+            context.moveTo(100, 50);
+            context.lineTo(250, 50);
+            context.stroke();
+            context.beginPath();
+            context.moveTo(250, 50);
+            context.lineTo(250, 100);
+            context.stroke();
+        }
+        function resetGame() {
+            selectedWord = '';
+            guessedWord = [];
+            mistakes = 0;
+            guessedLetters = [];
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            drawBase();
+            chooseWord();
+            createLetterButtons();
+        }
+        resetGame();
+    </script>
+</body>
+</html>
