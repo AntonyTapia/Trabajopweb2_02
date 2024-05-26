@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Poetsen+One&display=swap');
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    background-image: url("../img/bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+header{
+    font-family: "Poetsen One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+main{
+    font-family: "Oswald", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+.buttons{
+    display: flex;
+    justify-content: center;
+    gap: 5rem;
+    margin-top: 4rem;
+}
+
+.buttons button{
+    padding: 2rem;
+    border-radius: 3rem;
+    font-size: 1.5rem;
+    transition: transform 0.3s, color 0.3s, background-color 0.3s;
+    cursor: pointer;
+}
+
+button:hover{
+    transform: scale(1.2);
+    color: white;
+    background-color: black;
+}
+
+
+
+
+.editarEvento, .seeEventos {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f8d7da; 
+    color: #721c24; 
+    padding: 20px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+}
+
+.editarEvento button, .seeEventos button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #dc3545; 
+    color: #fff; 
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.editarEvento{
+    display: none;
+}
+
+.seeEventos{
+    display: none;
+}
+
+
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+li:nth-child(odd) {
+    background-color: #ffffff;
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi agenda</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Mi agenda personal</h1>
+    </header>
+    <main>
+        <form id="myForm" class="myForm">
+            <label for="title">Titulo del evento</label>
+            <br>
+            <input type="text" name="title" id = "title">
+            <br>
+        
+            <label for="fecha">Fecha</label>
+            <br>
+            <input type="date" name="fecha" id = "fecha">
+            <br>
+            <label for="hora">Hora</label>
+            <br>
+            <input type="time" name="hora" id = "hora">
+            <br>
+            <label for="descripcion"></label>
+            <br>
+            <textarea name = "descripcion" rows = "20" cols ="20">Ingrese la descripcion de su evento!</textarea>
+            <br>
+            <input type="submit" name="enviar" value="Registrar evento">
+            <br>
+        </form>
+        <div class="buttons">
+            <button id="edite">Editar evento</button>
+            <button id="see">Ver eventos</button>
+        </div>
+    </main>
+
+    <div class="editarEvento" id = "editarEvento">
+    </div>
+    <div class="seeEventos">   
+        <ul id="agenda-tree"></ul>
+        <button onclick="closeSee()">Salir</button>
+    </div>
+    <script src="../javascript/script.js"></script>
+</body>
+</html>
