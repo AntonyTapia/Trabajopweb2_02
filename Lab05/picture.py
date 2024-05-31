@@ -17,3 +17,12 @@ class Picture:
     for value in self.imagen:
       arriba.append(value[::-1])
     return Picture(arriba)
+
+  def negative(self):
+    Otraimagen = []
+    for value in self.img:
+      row = []
+      for char in value:
+        row.append(self._invColor(char))
+      Otraimagen.append(row)    
+    return Picture(Otraimagen)
