@@ -14,21 +14,29 @@ class Picture:
 
   def verticalMirror(self):
     arriba = []
-    for value in self.imagen:
-      arriba.append(value[::-1])
+    for valor in self.imagen:
+      arriba.append(valor[::-1])
     return Picture(arriba)
 
   def negative(self):
     Otraimagen = []
-    for value in self.img:
+    for valor in self.img:
       row = []
-      for char in value:
+      for char in valor:
         row.append(self._invColor(char))
       Otraimagen.append(row)    
     return Picture(Otraimagen)
 
   def join(self, p):
     Otraimagen = []
-    for variable, value in enumerate(self.img):
-      Otraimagen.append(list(value) + list(p.img[variable]))
+    for variable, valor in enumerate(self.img):
+      Otraimagen.append(list(valor) + list(p.img[variable]))
+    return Picture(Otraimagen)
+
+  def up(self, p):
+    Otraimagen = []
+    for valor in p.img:
+      Otraimagen.append(valor[::1])
+    for valor in self.img:
+      Otraimagen.append(valor[::1])
     return Picture(Otraimagen)
