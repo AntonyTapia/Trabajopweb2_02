@@ -26,3 +26,9 @@ class Picture:
         row.append(self._invColor(char))
       Otraimagen.append(row)    
     return Picture(Otraimagen)
+
+  def join(self, p):
+    Otraimagen = []
+    for variable, value in enumerate(self.img):
+      Otraimagen.append(list(value) + list(p.img[variable]))
+    return Picture(Otraimagen)
