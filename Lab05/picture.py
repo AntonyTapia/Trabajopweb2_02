@@ -40,3 +40,13 @@ class Picture:
     for valor in self.img:
       Otraimagen.append(valor[::1])
     return Picture(Otraimagen)
+    
+  def under(self, p):
+    Otraimagen = []
+    for valor in self.img:
+        Otraimagen.append(list(valor))
+    for i, valor in enumerate(p.img):
+      for j, char in enumerate(valor):
+        if(Otraimagen[i][j] == ' '):
+          Otraimagen[i][j] = char
+    return Picture(Otraimagen)
