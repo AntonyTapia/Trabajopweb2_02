@@ -50,3 +50,9 @@ class Picture:
         if(Otraimagen[i][j] == ' '):
           Otraimagen[i][j] = char
     return Picture(Otraimagen)
+
+  def horizontalRepeat(self, n):
+    auxiliar = self
+    for _ in range(n-1):
+      auxiliar = auxiliar.join(self) 
+    return auxiliar
