@@ -56,3 +56,9 @@ class Picture:
     for _ in range(n-1):
       auxiliar = auxiliar.join(self) 
     return auxiliar
+
+  def verticalRepeat(self, n):
+    auxiliar = self
+    for _ in range(n-1):
+      auxiliar = auxiliar.up(self) 
+    return auxiliar
